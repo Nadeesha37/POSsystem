@@ -1,0 +1,139 @@
+<div class="app-container">
+
+  <!-- ================= HEADER ================= -->
+  <header class="app-header">
+
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="assets/images/poslogo.jpg"
+           alt="Application Logo"
+           class="logo" />
+
+      <span class="application-name">
+        Point of Sale System
+      </span>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-container">
+
+      <button type="button"
+              class="profile-button"
+              (click)="toggleProfileMenu()">
+
+        <span class="material-icons">account_circle</span>
+
+        <span class="profile-name">
+          John Doe
+        </span>       
+
+      </button>
+
+      <div class="profile-dropdown" *ngIf="profileMenuOpen">
+
+        <a routerLink="/profile">
+          <span class="material-icons">person</span>
+          Profile
+        </a>
+
+        <a routerLink="/settings">
+          <span class="material-icons">settings</span>
+          Settings
+        </a>
+
+        <button type="button">
+          <span class="material-icons">logout</span>
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= BODY ================= -->
+  <div class="app-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <nav class="main-navigation">
+
+        <ng-container *ngFor="let menu of menuItems">
+
+          <!-- Menu without children -->
+          <a *ngIf="!menu.children"
+             class="menu-item"
+             [routerLink]="menu.route"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">
+
+            <span class="material-icons">
+              {{ menu.icon }}
+            </span>
+
+            <span>
+              {{ menu.label }}
+            </span>
+
+          </a>
+
+
+          <!-- Menu with children -->
+          <div *ngIf="menu.children"
+               class="menu-group">
+
+            <div class="menu-item menu-parent">
+
+              <span class="material-icons">
+                {{ menu.icon }}
+              </span>
+
+              <span>
+                {{ menu.label }}
+              </span>
+
+            </div>
+
+
+            <!-- Sub menu -->
+            <div class="submenu">
+
+              <a *ngFor="let child of menu.children"
+                 class="submenu-item"
+                 [routerLink]="child.route"
+                 routerLinkActive="active">
+
+                <span class="material-icons">
+                  {{ child.icon }}
+                </span>
+
+                <span>
+                  {{ child.label }}
+                </span>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </ng-container>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
+
+</div>

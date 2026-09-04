@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="POSsystem.AppHost/POSsystem.AppHost.csproj" />
+  <Project Path="possystem.client/possystem.client.esproj">
+    <Build />
+  </Project>
+  <Project Path="POSsystem.Server/POSsystem.Server.csproj" />
+  <Project Path="POSsystem.ServiceDefaults/POSsystem.ServiceDefaults.csproj" />
+</Solution>

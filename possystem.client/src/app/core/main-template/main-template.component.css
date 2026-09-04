@@ -1,0 +1,176 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ================= HEADER ================= */
+
+.app-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.application-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-container {
+  position: relative;
+}
+
+.profile-button {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.profile-image {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-weight: 500;
+}
+
+/* ================= BODY ================= */
+
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+}
+
+.main-navigation {
+  padding: 16px 12px;
+}
+
+.menu-item,
+.submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-item {
+  color: #374151;
+}
+
+  .menu-item:hover,
+  .submenu-item:hover {
+    background: #f3f4f6;
+  }
+
+  .menu-item.active,
+  .submenu-item.active {
+    background: #e8f0fe;
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+/* ================= SUB MENU ================= */
+
+.menu-parent {
+  cursor: default;
+  font-weight: 500;
+}
+
+.submenu {
+  margin-left: 20px;
+}
+
+.submenu-item {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+  background: #f8fafc;
+}
+
+/* ================= PROFILE DROPDOWN ================= */
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 180px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  padding: 8px;
+}
+
+  .profile-dropdown a,
+  .profile-dropdown button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    text-decoration: none;
+    color: #374151;
+    cursor: pointer;
+    text-align: left;
+  }
+
+    .profile-dropdown a:hover,
+    .profile-dropdown button:hover {
+      background: #f3f4f6;
+    }
