@@ -1,9 +1,65 @@
-<section class="page">
+<div class="dashboard-header">
+  <h2>Digital Global POs System Dashboard</h2>
+</div>
+<div class="summary-cards-container">
+  <div class="stat-card">
+    <div class="card-top">
+      <span class="card-title">Daily Sales</span>
+      <span class="trend-icon positive">↑</span>
+    </div>
+    <h3 class="card-value">${{ dailySales / 1000 | number:'1.1-1' }}K</h3>
+    <p class="card-subtitle">Daily Sales ${{ dailySalesTrend }}</p>
+  </div>
+  <div class="stat-card">
+    <div class="card-top">
+      <span class="card-title">Gross Profit</span>
+      <span class="trend-icon negative">↓</span>
+    </div>
+    <h3 class="card-value">${{ grossProfit / 1000 | number:'1.1-1' }}K</h3>
+    <p class="card-subtitle">Gross Profit ${{ grossProfitTrend }}</p>
+  </div>
+  <div class="stat-card">
+    <div class="card-top">
+      <span class="card-title">Transactions</span>
+      <span class="trend-icon negative">↓</span>
+    </div>
+    <h3 class="card-value">{{ transactions }}</h3>
+    <p class="card-subtitle">&nbsp;</p>
+  </div>
+  <div class="stat-card">
+    <div class="card-top">
+      <span class="card-title">Average Ticket</span>
+      <span class="trend-icon positive">↑</span>
+    </div>
+    <h3 class="card-value">${{ averageTicket | number:'1.2-2' }}</h3>
+    <p class="card-subtitle">Average Ticket ${{ avgTicketTrend | number:'1.2-2' }}</p>
+  </div>
+</div>
 
-  <h1>Dashboard</h1>
+<!-- Charts Section -->
+<div class="charts-container">
 
-  <p>
-    Welcome to the application dashboard.
-  </p>
+  <!-- 1. Top-Selling Products (Bar Chart) -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Top-Selling Products</span>
+      <select class="chart-dropdown">
+        <option>Column Chart</option>
+      </select>
+    </div>
+    <div class="chart-body">
+      <canvas id="topSellingChart"></canvas>
+    </div>
+  </div>
 
-</section>
+  <!-- 2. Sales Trends (Line Chart) -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Sales Trends</span>
+    </div>
+    <div class="chart-body">
+      <canvas id="salesTrendsChart"></canvas>
+    </div>
+  </div>
+
+</div>
