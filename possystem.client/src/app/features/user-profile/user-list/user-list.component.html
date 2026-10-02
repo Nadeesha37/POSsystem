@@ -1,22 +1,87 @@
-<section class="page">
+<section class="user-page">
+  <div class="top-bar">
+    <h2 class="page-title">User List</h2>
 
-  <div class="page-header">
-
-    <h1>User Profiles</h1>
-
-    <button type="button"
-            routerLink="/users/create">
-
-      Add User
-
-    </button>
-
+    <div class="top-actions">
+      <button type="button" class="btn btn-outline-secondary">
+        Search User
+      </button>
+      <button type="button" class="btn btn-primary" routerLink="/users/create">
+        Add User
+      </button>
+    </div>
   </div>
 
-  <div class="card">
+  <div class="table-card">
+    <div class="table-header-row">
+      <div class="table-title">Users</div>
+    </div>
 
-    <p>User profiles will appear here as lists.</p>
+    <div class="search-wrap">
+      <input
+        type="text"
+        class="form-control search-input"
+        placeholder="Search user by name, role or email"
+        [(ngModel)]="searchText"
+      />
+    </div>
 
+    <div *ngIf="selectedUser" class="edit-box">
+      <h5>Edit User</h5>
+      <div class="edit-row">
+        <div class="edit-field">
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.name" placeholder="Name" />
+        </div>
+        <div class="edit-field small-field">
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.role" placeholder="Role" />
+        </div>
+        <div class="edit-field">
+          <input type="email" class="form-control" [(ngModel)]="selectedUser.email" placeholder="Email" />
+        </div>
+        <div class="edit-field small-field">
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.phone" placeholder="Phone" />
+        </div>
+        <div class="edit-field tiny-field">
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.status" placeholder="Status" />
+        </div>
+        <div class="edit-action">
+          <button class="btn btn-success" (click)="saveUser()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers">
+            <td>{{ user.name }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(user.status)">
+                {{ user.status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn btn-warning" (click)="editUser(user)">Edit</button>
+                <button class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
 </section>

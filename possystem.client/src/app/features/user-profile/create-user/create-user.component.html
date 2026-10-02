@@ -1,29 +1,29 @@
-<section class="page">
+<section class="create-user-page">
+  <h1>Create User</h1>
 
-  <h1>Add User</h1>
+  <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
+    <label for="user-name">Name</label>
+    <input id="user-name" name="name" type="text" [(ngModel)]="user.name" placeholder="Enter user name" required />
 
-  <div class="card">
+    <label for="user-role">Role</label>
+    <input id="user-role" name="role" type="text" [(ngModel)]="user.role" placeholder="Enter role" required />
 
-    <form>
+    <label for="user-email">Email</label>
+    <input id="user-email" name="email" type="email" [(ngModel)]="user.email" placeholder="Enter email" required email />
 
-      <div class="form-group">
+    <label for="user-phone">Phone</label>
+    <input id="user-phone" name="phone" type="tel" [(ngModel)]="user.phone" placeholder="Enter phone number" required />
 
-        <label for="name">
-          User Profile
-        </label>
+    <label for="user-status">Status</label>
+    <select id="user-status" name="status" [(ngModel)]="user.status" required>
+      <option value="Active">Active</option>
+      <option value="Pending">Pending</option>
+      <option value="Inactive">Inactive</option>
+    </select>
 
-        <input id="name"
-               type="text"
-               placeholder="Enter user profile name" />
-
-      </div>
-
-      <button type="submit">
-        Save Profile
-      </button>
-
-    </form>
-
-  </div>
-
+    <div class="form-actions">
+      <button type="button" routerLink="/users">Cancel</button>
+      <button type="submit" [disabled]="userForm.invalid">Save User</button>
+    </div>
+  </form>
 </section>
