@@ -8,24 +8,35 @@ import { UserListComponent } from './features/user-profile/user-list/user-list.c
 import { CreateUserComponent } from './features/user-profile/create-user/create-user.component';
 import { LoginDtlRptComponent } from './features/reports/login-dtl-rpt/login-dtl-rpt.component';
 import { LoginComponent } from './features/login/login.component';
+import { authGuard } from './core/auth.guard';
+
+
+import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/reset-password/reset-password.component';
 
 const routes: Routes = [
+
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
 
   {
     path: 'login',
     component: LoginComponent
   },
 
+  { path: 'forgot-password',
+    component: ForgotPasswordComponent },
+  { path: 'reset-password',
+    component: ResetPasswordComponent },
+
   {
     path: '',
     component: MainTemplateComponent,
+    canActivate: [authGuard],
     children: [
-
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
 
       {
         path: 'dashboard',
@@ -52,7 +63,7 @@ const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'login'
   }
 
 ];

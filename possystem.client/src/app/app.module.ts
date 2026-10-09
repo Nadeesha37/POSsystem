@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,8 @@ import { UserListComponent } from './features/user-profile/user-list/user-list.c
 import { CreateUserComponent } from './features/user-profile/create-user/create-user.component';
 import { LoginDtlRptComponent } from './features/reports/login-dtl-rpt/login-dtl-rpt.component';
 import { LoginComponent } from './features/login/login.component';
+import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -21,12 +23,14 @@ import { LoginComponent } from './features/login/login.component';
     UserListComponent,
     CreateUserComponent,
     LoginDtlRptComponent,
-    LoginComponent
+    LoginComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule, ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
