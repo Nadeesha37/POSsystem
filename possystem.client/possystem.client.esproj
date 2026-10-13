@@ -8,7 +8,6 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\possystem.client\browser\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\app\core\" />
     <Folder Include="src\app\features\reports\" />
     <Folder Include="src\app\features\user-profile\" />
     <Folder Include="src\assets\images\icons\" />
