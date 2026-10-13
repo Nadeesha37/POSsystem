@@ -7,8 +7,14 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { UserListComponent } from './features/user-profile/user-list/user-list.component';
 import { CreateUserComponent } from './features/user-profile/create-user/create-user.component';
 import { LoginDtlRptComponent } from './features/reports/login-dtl-rpt/login-dtl-rpt.component';
+import { LoginComponent } from './features/login/login.component';
 
 const routes: Routes = [
+
+  {
+    path: 'login',
+    component: LoginComponent
+  },
 
   {
     path: '',
