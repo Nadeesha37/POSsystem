@@ -6,12 +6,12 @@
       <div class="login-form-wrapper">
         <h1 class="text-center mb-4">Log In</h1>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" autocomplete="off" novalidate>
           <div class="mb-3">
             <label for="username" class="form-label">Username or Email Address</label>
             <input type="text" id="username" class="form-control"
                    placeholder="Enter your username/email"
-                   formControlName="username" maxlength="50" autocomplete="username"
+                   formControlName="username" maxlength="50" autocomplete="off"
                    [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
             <div class="invalid-feedback">
               Enter a valid username or email (3 to 50 characters, letters, numbers, &#64; . _ - only)
@@ -22,7 +22,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" id="password" class="form-control"
                    placeholder="Enter your password"
-                   formControlName="password" maxlength="100" autocomplete="current-password"
+                   formControlName="password" maxlength="100" autocomplete="new-password"
                    [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
             <div class="invalid-feedback">
               Password must be at least 6 characters
@@ -41,7 +41,8 @@
             {{ errorMessage }}
           </div>
 
-          <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+          <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
             Log In
           </button>
         </form>

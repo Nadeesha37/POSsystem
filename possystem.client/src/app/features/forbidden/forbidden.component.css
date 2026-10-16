@@ -1,0 +1,23 @@
+:host {
+  font-family: 'Segoe UI', 'Poppins', sans-serif;
+}
+
+.forbidden {
+  padding: 4rem 1rem;
+}
+
+  .forbidden h1,
+  .forbidden h2 {
+    color: #2c4a6e;
+    font-weight: 500;
+  }
+
+.btn-primary {
+  background: linear-gradient(180deg, #3a5a80 0%, #1f3550 100%);
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+  .btn-primary:hover {
+    background: linear-gradient(180deg, #2c4a6e 0%, #17293f 100%);
+  }
