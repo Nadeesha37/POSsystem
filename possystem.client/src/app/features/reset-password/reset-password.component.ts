@@ -15,6 +15,7 @@ export class ResetPasswordComponent implements OnInit {
   success = false;
   tokenInvalid = false;
   showPassword = false;
+  attempted = false;
   errorMessage = '';
   private token = '';
 
@@ -38,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
-    
+    // Basic token format check (real verification happens on the backend)
     if (!/^[A-Za-z0-9_-]{20,200}$/.test(token)) {
       this.tokenInvalid = true;
       return;
@@ -46,7 +47,7 @@ export class ResetPasswordComponent implements OnInit {
 
     this.token = token;
 
-   
+    // Remove the token from the URL so it does not stay in history or leak via referrer
     this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
   }
 
@@ -75,21 +76,23 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.loading) return;
 
+    this.attempted = true;
+
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
       return;
     }
 
     this.loading = true;
     this.errorMessage = '';
 
-   
+    // The password is sent exactly as typed (never sanitized or changed)
     const newPassword: string = this.form.value.newPassword;
 
     this.auth.resetPassword(this.token, newPassword).subscribe({
       next: () => {
         this.loading = false;
         this.success = true;
+        this.attempted = false;
         this.token = '';
         this.form.reset();
         setTimeout(() => this.router.navigate(['/login']), 2500);
@@ -99,5 +102,29 @@ export class ResetPasswordComponent implements OnInit {
         this.errorMessage = 'This reset link is invalid or has expired. Please request a new one.';
       }
     });
+  }
+
+  showError(name: 'newPassword' | 'confirmPassword'): boolean {
+    if (!this.attempted) return false;
+
+    const control = this.form.get(name);
+    if (!control) return false;
+
+    return name === 'confirmPassword'
+      ? control.invalid || this.form.hasError('mismatch')
+      : control.invalid;
+  }
+
+  errorText(name: 'newPassword' | 'confirmPassword'): string {
+    if (name === 'newPassword') {
+      const errors = this.form.get('newPassword')?.errors;
+      if (errors?.['required']) return 'New password is required';
+      return 'Password does not meet the requirements';
+    }
+
+    if (this.form.get('confirmPassword')?.errors?.['required']) {
+      return 'Please confirm your password';
+    }
+    return 'Passwords do not match';
   }
 }
