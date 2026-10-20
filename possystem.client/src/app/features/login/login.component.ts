@@ -12,6 +12,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
   loading = false;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -21,13 +22,11 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       username: ['', [
         Validators.required,
-        Validators.minLength(3),
         Validators.maxLength(50),
         Validators.pattern(/^[a-zA-Z0-9@._-]+$/)
       ]],
       password: ['', [
         Validators.required,
-        Validators.minLength(6),
         Validators.maxLength(100)
       ]]
     });
@@ -36,8 +35,9 @@ export class LoginComponent {
   onLogin(): void {
     if (this.loading) return;
 
+    this.submitted = true;
+
     if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
       return;
     }
 
@@ -57,5 +57,23 @@ export class LoginComponent {
         this.errorMessage = 'Invalid username or password';
       }
     });
+  }
+
+  showError(name: 'username' | 'password'): boolean {
+    const control = this.loginForm.get(name);
+    return !!control && control.invalid && this.submitted;
+  }
+
+  errorText(name: 'username' | 'password'): string {
+    const errors = this.loginForm.get(name)?.errors;
+    if (!errors) return '';
+
+    if (errors['required']) {
+      return name === 'username' ? 'Username is required' : 'Password is required';
+    }
+    if (errors['pattern']) {
+      return 'Username has invalid characters';
+    }
+    return 'Invalid value';
   }
 }

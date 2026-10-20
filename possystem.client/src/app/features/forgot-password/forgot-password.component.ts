@@ -12,7 +12,8 @@ import { sanitizeText } from '../../core/utils/sanitize';
 export class ForgotPasswordComponent implements OnDestroy {
   form: FormGroup;
   loading = false;
-  submitted = false;
+  submitted = false;   // reset link එක යැව්වා (success message)
+  attempted = false;   // Send click කළා (validation පෙන්නන්න)
   errorMessage = '';
   cooldown = 0;
   private timer?: ReturnType<typeof setInterval>;
@@ -34,8 +35,9 @@ export class ForgotPasswordComponent implements OnDestroy {
   onSubmit(): void {
     if (this.loading || this.cooldown > 0) return;
 
+    this.attempted = true;
+
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
       return;
     }
 
@@ -48,6 +50,7 @@ export class ForgotPasswordComponent implements OnDestroy {
         this.loading = false;
         this.submitted = true;
         this.form.reset();
+        this.attempted = false;   // form එක reset වුනාම error එක නැවත නොපෙන්නන්න
         this.startCooldown(60);
       },
       error: () => {
@@ -55,6 +58,17 @@ export class ForgotPasswordComponent implements OnDestroy {
         this.errorMessage = 'Something went wrong. Please try again later.';
       }
     });
+  }
+
+  showError(): boolean {
+    return !!this.email && this.email.invalid && this.attempted;
+  }
+
+  errorText(): string {
+    const errors = this.email?.errors;
+    if (!errors) return '';
+    if (errors['required']) return 'Email is required';
+    return 'Enter a valid email address';
   }
 
   private startCooldown(seconds: number): void {
