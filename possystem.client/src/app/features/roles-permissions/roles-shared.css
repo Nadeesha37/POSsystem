@@ -1,0 +1,144 @@
+/* Shared styles for the Roles & permissions feature (imported by the page and both dialogs).
+   Every class starts with "rp-" so it never clashes with Bootstrap (.btn, .row ...). */
+
+input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  flex: 0 0 auto;
+  accent-color: #0F766E;
+}
+
+.rp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #B9C5C1;
+  border-radius: 10px;
+  background: #fff;
+  color: #14231F;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  .rp-btn:hover:not(:disabled) {
+    background: #F4F6F5;
+  }
+
+  .rp-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+.rp-btn--primary {
+  background: #0F766E;
+  border-color: #0F766E;
+  color: #fff;
+}
+
+  .rp-btn--primary:hover:not(:disabled) {
+    background: #0B5F59;
+  }
+
+.rp-btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: #0B5F59;
+}
+
+.rp-btn:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.35);
+  outline-offset: 2px;
+}
+
+/* Form fields */
+.rp-fld {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4A5C57;
+}
+
+  .rp-fld input,
+  .rp-fld select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 6px;
+    padding: 0 12px;
+    border: 1px solid #B9C5C1;
+    border-radius: 10px;
+    background: #fff;
+    color: #14231F;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+    .rp-fld input::placeholder {
+      color: #6B7A75;
+    }
+
+    .rp-fld input[readonly] {
+      background: #F4F6F5;
+    }
+
+  .rp-fld .rp-invalid {
+    border-color: #C0392B;
+  }
+
+.rp-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #B3261E;
+}
+
+/* Dialog layout */
+.rp-dlg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 24px 0;
+}
+
+  .rp-dlg-head h2 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  .rp-dlg-head p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #55655F;
+  }
+
+.rp-dlg-close {
+  width: 44px;
+  padding: 0;
+}
+
+.rp-dlg-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+}
+
+.rp-dlg-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #E6EBE9;
+}

@@ -1,0 +1,250 @@
+@import './roles-shared.css';
+
+:host {
+  display: block;
+  padding: 28px 32px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: #14231F;
+}
+
+h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.rp-sub {
+  margin: 0;
+  font-size: 14px;
+  color: #55655F;
+}
+
+.rp-sub--tight {
+  margin-bottom: 8px;
+}
+
+.rp-sub--roomy {
+  margin-bottom: 12px;
+}
+
+/* Header */
+.rp-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+  .rp-header h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .rp-header .rp-sub {
+    margin-top: 4px;
+  }
+
+/* Message */
+.rp-toast {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid #0F766E;
+  border-radius: 10px;
+  background: #EAF5F3;
+  color: #0B4F49;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.rp-toast--error {
+  border-color: #C0392B;
+  background: #FDECEA;
+  color: #8A1F17;
+}
+
+.rp-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Role list */
+.rp-role-list {
+  flex: 1 1 260px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rp-role {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #DDE3E1;
+  border-radius: 12px;
+  background: #fff;
+  color: #14231F;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+  .rp-role:hover {
+    border-color: #0F766E;
+  }
+
+  .rp-role.on {
+    padding: 13px 15px;
+    border: 2px solid #0F766E;
+  }
+
+  .rp-role b {
+    display: block;
+    font-size: 16px;
+  }
+
+  .rp-role span {
+    font-size: 13px;
+    color: #55655F;
+  }
+
+/* Editor panel */
+.rp-panel {
+  flex: 3 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 24px;
+  border: 1px solid #DDE3E1;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.rp-panel__top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.rp-fld--name {
+  flex: 1 1 180px;
+}
+
+.rp-fld--desc {
+  flex: 2 1 280px;
+}
+
+/* Assigned users */
+.rp-user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.rp-av {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
+  border: 1px solid #DDE3E1;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+  .rp-av i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #D6EBE7;
+    color: #0B4F49;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+/* Module access table */
+.rp-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #E6EBE9;
+  border-radius: 12px;
+}
+
+.rp-mat {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+}
+
+  .rp-mat th,
+  .rp-mat td {
+    padding: 12px 14px;
+    border-top: 1px solid #E6EBE9;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .rp-mat th {
+    border-top: 0;
+    color: #4A5C57;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+    .rp-mat th:first-child,
+    .rp-mat td:first-child {
+      text-align: left;
+    }
+
+  .rp-mat td:first-child {
+    font-weight: 500;
+  }
+
+/* Sensitive actions */
+.rp-till-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.rp-chk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #DDE3E1;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.rp-fld--discount {
+  max-width: 280px;
+  margin-top: 16px;
+}
+
+/* Footer */
+.rp-panel__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid #E6EBE9;
+}
+
+.rp-panel__footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

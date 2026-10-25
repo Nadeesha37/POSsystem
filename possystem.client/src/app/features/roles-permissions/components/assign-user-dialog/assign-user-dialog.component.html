@@ -1,0 +1,64 @@
+<app-modal [width]="600" labelledBy="au-title" (closed)="closed.emit()">
+
+  <div class="rp-dlg-head">
+    <div>
+      <h2 id="au-title">Assign users to {{ role.name }}</h2>
+      <p>
+        {{ memberCount }} {{ memberCount === 1 ? 'user already has' : 'users already have' }} this role.
+        Pick more staff to add.
+      </p>
+    </div>
+    <button class="rp-btn rp-dlg-close" type="button" aria-label="Close" (click)="closed.emit()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="rp-dlg-body">
+
+    <div class="rp-search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55655F"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="M20 20l-4-4"></path>
+      </svg>
+      <input class="rp-search" type="search" placeholder="Search staff by name"
+             aria-label="Search staff by name" autocomplete="off"
+             [(ngModel)]="search">
+    </div>
+
+    <div class="rp-staff-list">
+      <label class="rp-row" *ngFor="let u of filtered; trackBy: trackByUser" [class.on]="isSelected(u.id)">
+        <input type="checkbox" [checked]="isSelected(u.id)" (change)="toggle(u.id)">
+        <i>{{ initials(u.name) }}</i>
+        <b>{{ u.name }}</b>
+        <span class="rp-tag">{{ roleName(u.roleId) }}</span>
+      </label>
+
+      <p class="rp-empty" *ngIf="filtered.length === 0">
+        {{ candidates.length === 0 ? 'There is no other staff to assign.' : 'No staff match your search.' }}
+      </p>
+    </div>
+
+    <p class="rp-hint">
+      <strong>{{ selectedCount }} selected.</strong>
+      Each person moves from their current role to {{ role.name }}.
+    </p>
+
+  </div>
+
+  <div class="rp-dlg-foot rp-dlg-foot--split">
+    <a class="rp-btn rp-btn--ghost" routerLink="/users/create">Invite a new user</a>
+    <div class="rp-dlg-actions">
+      <button class="rp-btn" type="button" (click)="closed.emit()">Cancel</button>
+      <button class="rp-btn rp-btn--primary" type="button"
+              [disabled]="selectedCount === 0"
+              (click)="submit()">
+        {{ selectedCount === 0 ? 'Assign users' : 'Assign ' + selectedCount + (selectedCount === 1 ? ' user' : ' users') }}
+      </button>
+    </div>
+  </div>
+
+</app-modal>
