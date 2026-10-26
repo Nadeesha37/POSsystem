@@ -1,0 +1,9 @@
+<div class="modal-overlay" (mousedown)="onBackdropMouseDown($event)">
+  <div class="modal-card"
+       role="dialog"
+       aria-modal="true"
+       [attr.aria-labelledby]="labelledBy"
+       [style.width.px]="width">
+    <ng-content></ng-content>
+  </div>
+</div>

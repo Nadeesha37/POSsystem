@@ -1,0 +1,51 @@
+<app-modal [width]="560" labelledBy="nr-title" (closed)="closed.emit()">
+
+  <div class="rp-dlg-head">
+    <div>
+      <h2 id="nr-title">New role</h2>
+      <p>Create a role, then fine-tune its permissions.</p>
+    </div>
+    <button class="rp-btn rp-dlg-close" type="button" aria-label="Close" (click)="closed.emit()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <form (ngSubmit)="submit()" novalidate>
+    <div class="rp-dlg-body">
+
+      <label class="rp-fld">
+        Role name
+        <input #nameInput type="text" name="name" maxlength="40" autocomplete="off"
+               placeholder="e.g. Shift supervisor"
+               [(ngModel)]="name"
+               [class.rp-invalid]="attempted && nameError">
+        <span class="rp-error" *ngIf="attempted && nameError">{{ nameError }}</span>
+      </label>
+
+      <label class="rp-fld">
+        Description (optional)
+        <input type="text" name="description" maxlength="120" autocomplete="off"
+               placeholder="What does this role do?"
+               [(ngModel)]="description">
+      </label>
+
+      <label class="rp-fld">
+        Copy permissions from
+        <select name="copyFrom" [(ngModel)]="copyFrom">
+          <option [ngValue]="null">Start blank (no access)</option>
+          <option *ngFor="let r of roles" [ngValue]="r.id">{{ r.name }}</option>
+        </select>
+      </label>
+
+    </div>
+
+    <div class="rp-dlg-foot">
+      <button class="rp-btn" type="button" (click)="closed.emit()">Cancel</button>
+      <button class="rp-btn rp-btn--primary" type="submit">Create role</button>
+    </div>
+  </form>
+
+</app-modal>

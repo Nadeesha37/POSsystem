@@ -1,0 +1,113 @@
+@import '../../roles-shared.css';
+
+:host {
+  display: block;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: #14231F;
+}
+
+.rp-dlg-foot--split {
+  justify-content: space-between;
+}
+
+.rp-dlg-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.rp-search-wrap {
+  position: relative;
+}
+
+  .rp-search-wrap svg {
+    position: absolute;
+    left: 13px;
+    top: 13px;
+  }
+
+.rp-search {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px 0 40px;
+  border: 1px solid #B9C5C1;
+  border-radius: 10px;
+  background: #fff;
+  color: #14231F;
+  font: inherit;
+  font-size: 15px;
+}
+
+  .rp-search::placeholder {
+    color: #6B7A75;
+  }
+
+.rp-staff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.rp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 14px;
+  border: 1px solid #DDE3E1;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+  .rp-row.on {
+    border-color: #0F766E;
+    background: #EAF5F3;
+  }
+
+  .rp-row i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #D6EBE7;
+    color: #0B4F49;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .rp-row b {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+.rp-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #EEF2F1;
+  color: #4A5C57;
+  font-size: 13px;
+}
+
+.rp-empty {
+  margin: 0;
+  padding: 12px 4px;
+  font-size: 14px;
+  color: #55655F;
+}
+
+.rp-hint {
+  margin: 0;
+  font-size: 14px;
+  color: #55655F;
+}
+
+  .rp-hint strong {
+    color: #14231F;
+  }

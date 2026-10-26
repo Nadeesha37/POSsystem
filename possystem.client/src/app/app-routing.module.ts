@@ -16,6 +16,7 @@ import { authGuard } from './core/auth.guard';
 import { guestGuard } from './core/guest.guard';
 import { roleGuard } from './core/role.guard';
 import { ACCESS } from './core/models/user.model';
+import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
 
 const routes: Routes = [
 
@@ -52,6 +53,13 @@ const routes: Routes = [
         component: LoginDtlRptComponent,
         canActivate: [roleGuard],
         data: { roles: ACCESS.reports }
+      },
+
+      {
+        path: 'roles-permissions',
+        component: RolesPermissionsComponent,
+        canActivate: [roleGuard],
+        data: { roles: ACCESS.roles }
       },
 
       { path: 'forbidden', component: ForbiddenComponent }
