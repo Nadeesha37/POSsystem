@@ -9,5 +9,6 @@ export interface AuthUser {
 
 export const ACCESS = {
   users: ['Admin', 'Manager'] as Role[],
-  reports: ['Admin', 'Manager'] as Role[]
+  reports: ['Admin', 'Manager'] as Role[],
+  roles: ['Admin'] as Role[]
 };

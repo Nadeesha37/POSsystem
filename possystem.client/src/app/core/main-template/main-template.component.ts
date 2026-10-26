@@ -46,6 +46,12 @@ export class MainTemplateComponent implements OnInit, OnDestroy {
       icon: 'assessment',
       route: '/reports',
       roles: ACCESS.reports
+    },
+    {
+      label: 'Roles & Permissions',
+      icon: 'admin_panel_settings',
+      route: '/roles-permissions',
+      roles: ACCESS.roles
     }
   ];
 

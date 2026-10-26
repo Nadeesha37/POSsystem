@@ -1,0 +1,146 @@
+<div class="rp-header">
+  <div>
+    <h1>Roles &amp; permissions</h1>
+    <p class="rp-sub">Control what each staff role can see and do at the till and in the back office.</p>
+  </div>
+  <button class="rp-btn rp-btn--primary" type="button" (click)="openNewRoleDialog()">+ New role</button>
+</div>
+
+<div class="rp-toast" *ngIf="message" [class.rp-toast--error]="messageType === 'error'" role="status">
+  {{ message }}
+</div>
+
+<div class="rp-layout">
+
+  <!-- Role list -->
+  <section class="rp-role-list" aria-label="Roles">
+    <button *ngFor="let role of roles; trackBy: trackByRole"
+            class="rp-role"
+            type="button"
+            [class.on]="role.id === selectedId"
+            [attr.aria-pressed]="role.id === selectedId"
+            (click)="selectRole(role)">
+      <b>{{ role.name }}</b>
+      <span>{{ roleSummary(role) }}</span>
+    </button>
+  </section>
+
+  <!-- Role editor -->
+  <section class="rp-panel" *ngIf="draft as d">
+
+    <p class="rp-sub" *ngIf="d.locked">This role is locked. Its permissions cannot be changed.</p>
+
+    <div class="rp-panel__top">
+      <label class="rp-fld rp-fld--name">
+        Role name
+        <input type="text" maxlength="40"
+               [(ngModel)]="d.name"
+               [readOnly]="d.locked"
+               [class.rp-invalid]="saveAttempted && nameError">
+        <span class="rp-error" *ngIf="saveAttempted && nameError">{{ nameError }}</span>
+      </label>
+
+      <label class="rp-fld rp-fld--desc">
+        Description
+        <input type="text" maxlength="120"
+               [(ngModel)]="d.description"
+               [readOnly]="d.locked">
+      </label>
+    </div>
+
+    <!-- Assigned users -->
+    <div>
+      <h3>Assigned users</h3>
+      <div class="rp-user-list">
+        <div class="rp-av" *ngFor="let u of assignedUsers">
+          <i>{{ initials(u.name) }}</i>{{ u.name }}
+        </div>
+        <span class="rp-sub" *ngIf="assignedUsers.length === 0">No users assigned yet.</span>
+        <button class="rp-btn" type="button" [disabled]="d.locked" (click)="showAssignDialog = true">
+          Assign user
+        </button>
+      </div>
+    </div>
+
+    <!-- Module access -->
+    <div>
+      <h3>Module access</h3>
+      <p class="rp-sub rp-sub--tight">Choose what this role can do in each area.</p>
+
+      <div class="rp-table-wrap">
+        <table class="rp-mat">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th *ngFor="let a of actions">{{ a | titlecase }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of d.modules">
+              <td>{{ m.label }}</td>
+              <td *ngFor="let a of actions">
+                <input *ngIf="m.actions[a] !== undefined; else notApplicable"
+                       type="checkbox"
+                       [checked]="!!m.actions[a]"
+                       [disabled]="d.locked"
+                       [attr.aria-label]="m.label + ' ' + a"
+                       (change)="onToggle(m, a, $event)">
+                <ng-template #notApplicable>–</ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sensitive actions -->
+    <div>
+      <h3>Sensitive actions at the till</h3>
+      <p class="rp-sub rp-sub--roomy">These can affect cash and stock, so grant them carefully.</p>
+
+      <div class="rp-till-grid">
+        <label class="rp-chk" *ngFor="let t of tillActions">
+          <input type="checkbox" [(ngModel)]="d.till[t.key]" [disabled]="d.locked">{{ t.label }}
+        </label>
+      </div>
+
+      <label class="rp-fld rp-fld--discount">
+        Max discount without approval (%)
+        <input type="number" min="0" max="100"
+               [(ngModel)]="d.maxDiscountPercent"
+               [readOnly]="d.locked"
+               [class.rp-invalid]="saveAttempted && discountError">
+        <span class="rp-error" *ngIf="saveAttempted && discountError">{{ discountError }}</span>
+      </label>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="rp-panel__footer">
+      <button class="rp-btn" type="button" [disabled]="d.locked" (click)="deleteRole()">Delete role</button>
+      <div class="rp-panel__footer-actions">
+        <button class="rp-btn" type="button" (click)="duplicateRole()">Duplicate</button>
+        <button class="rp-btn rp-btn--primary" type="button"
+                [disabled]="d.locked || !isDirty"
+                (click)="saveChanges()">
+          Save changes
+        </button>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- Dialogs (blurred backdrop over this page) -->
+<app-new-role-dialog *ngIf="showNewRoleDialog"
+                     [roles]="roles"
+                     (created)="onRoleCreated($event)"
+                     (closed)="showNewRoleDialog = false">
+</app-new-role-dialog>
+
+<app-assign-user-dialog *ngIf="showAssignDialog && draft"
+                        [role]="draft"
+                        [roles]="roles"
+                        [users]="users"
+                        (assigned)="onUsersAssigned($event)"
+                        (closed)="showAssignDialog = false">
+</app-assign-user-dialog>

@@ -1,0 +1,7 @@
+@import '../../roles-shared.css';
+
+:host {
+  display: block;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: #14231F;
+}

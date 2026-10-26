@@ -15,6 +15,10 @@ import { ForgotPasswordComponent } from './features/forgot-password/forgot-passw
 import { ResetPasswordComponent } from './features/reset-password/reset-password.component';
 import { ForbiddenComponent } from './features/forbidden/forbidden.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ModalComponent } from './shared/components/modal/modal.component';
+import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
+import { NewRoleDialogComponent } from './features/roles-permissions/components/new-role-dialog/new-role-dialog.component';
+import { AssignUserDialogComponent } from './features/roles-permissions/components/assign-user-dialog/assign-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    ModalComponent,
+    RolesPermissionsComponent,
+    NewRoleDialogComponent,
+    AssignUserDialogComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
