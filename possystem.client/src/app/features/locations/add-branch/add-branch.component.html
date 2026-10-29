@@ -1,0 +1,84 @@
+<div class="loc-header">
+  <div>
+    <h1>Add branch</h1>
+    <p class="loc-sub">Create a new branch (location). You can add its departments afterwards.</p>
+  </div>
+</div>
+
+<form class="loc-card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+  <div class="loc-grid">
+
+    <label class="loc-fld">
+      Branch name
+      <input type="text" formControlName="name" maxlength="60" autocomplete="off"
+             placeholder="e.g. Kurunegala Main"
+             [class.loc-invalid]="showError('name')">
+      <span class="loc-error" *ngIf="showError('name')">{{ errorText('name') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Branch code
+      <input type="text" formControlName="code" maxlength="10" autocomplete="off"
+             placeholder="e.g. KUR-01"
+             [class.loc-invalid]="showError('code')">
+      <span class="loc-error" *ngIf="showError('code')">{{ errorText('code') }}</span>
+    </label>
+
+    <label class="loc-fld loc-span">
+      Address
+      <input type="text" formControlName="address" maxlength="120" autocomplete="off"
+             placeholder="Street address"
+             [class.loc-invalid]="showError('address')">
+      <span class="loc-error" *ngIf="showError('address')">{{ errorText('address') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      City
+      <input type="text" formControlName="city" maxlength="40" autocomplete="off"
+             placeholder="e.g. Kurunegala"
+             [class.loc-invalid]="showError('city')">
+      <span class="loc-error" *ngIf="showError('city')">{{ errorText('city') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Phone number
+      <input type="text" formControlName="phone" maxlength="20" autocomplete="off"
+             placeholder="e.g. +94 37 222 3344"
+             [class.loc-invalid]="showError('phone')">
+      <span class="loc-error" *ngIf="showError('phone')">{{ errorText('phone') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Email (optional)
+      <input type="text" formControlName="email" maxlength="100" autocomplete="off"
+             placeholder="Branch email address"
+             [class.loc-invalid]="showError('email')">
+      <span class="loc-error" *ngIf="showError('email')">{{ errorText('email') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Manager (optional)
+      <input type="text" formControlName="manager" maxlength="60" autocomplete="off"
+             placeholder="Manager name"
+             [class.loc-invalid]="showError('manager')">
+      <span class="loc-error" *ngIf="showError('manager')">{{ errorText('manager') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Status
+      <select formControlName="status">
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+
+  </div>
+
+  <div class="loc-alert" *ngIf="errorMessage" role="alert">{{ errorMessage }}</div>
+
+  <div class="loc-footer">
+    <a class="loc-btn" routerLink="/locations/branch-settings">Cancel</a>
+    <button class="loc-btn loc-btn--primary" type="submit" [disabled]="saving">Save branch</button>
+  </div>
+
+</form>

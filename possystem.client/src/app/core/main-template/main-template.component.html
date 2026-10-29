@@ -86,7 +86,14 @@
           <div *ngIf="menu.children"
                class="menu-group">
 
-            <div class="menu-item menu-parent">
+            <div class="menu-item menu-parent"
+                 [class.menu-collapsible]="menu.collapsible"
+                 [attr.role]="menu.collapsible ? 'button' : null"
+                 [attr.tabindex]="menu.collapsible ? 0 : null"
+                 [attr.aria-expanded]="menu.collapsible ? isOpen(menu) : null"
+                 (click)="toggleMenu(menu)"
+                 (keydown.enter)="toggleMenu(menu)"
+                 (keydown.space)="toggleMenu(menu); $event.preventDefault()">
 
               <span class="material-icons">
                 {{ menu.icon }}
@@ -96,16 +103,21 @@
                 {{ menu.label }}
               </span>
 
+              <span *ngIf="menu.collapsible" class="material-icons menu-chevron">
+                {{ isOpen(menu) ? 'expand_less' : 'expand_more' }}
+              </span>
+
             </div>
 
 
             <!-- Sub menu -->
-            <div class="submenu">
+            <div class="submenu" *ngIf="isOpen(menu)">
 
               <a *ngFor="let child of menu.children"
                  class="submenu-item"
                  [routerLink]="child.route"
-                 routerLinkActive="active">
+                 routerLinkActive="active"
+                 [routerLinkActiveOptions]="{ exact: true }">
 
                 <span class="material-icons">
                   {{ child.icon }}

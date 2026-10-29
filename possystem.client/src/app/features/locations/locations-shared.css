@@ -1,0 +1,197 @@
+:host {
+  /* Colors (Roles & permissions page එකේ teal). වෙනස් කරන්න ඕන නම් මේවා විතරක් වෙනස් කරන්න. */
+  --loc-primary: #0F766E;
+  --loc-primary-dark: #0B5F59;
+  --loc-primary-soft: #EAF5F3;
+  --loc-text: #14231F;
+  --loc-muted: #55655F;
+  --loc-border: #DDE3E1;
+  --loc-border-strong: #B9C5C1;
+  --loc-error: #B3261E;
+  display: block;
+  padding: 28px 32px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--loc-text);
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.loc-sub {
+  margin: 0;
+  font-size: 14px;
+  color: var(--loc-muted);
+}
+
+.loc-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+  .loc-header .loc-sub {
+    margin-top: 4px;
+  }
+
+/* Buttons */
+.loc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--loc-border-strong);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--loc-text);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  .loc-btn:hover:not(:disabled) {
+    background: #F4F6F5;
+  }
+
+  .loc-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+.loc-btn--primary {
+  border-color: var(--loc-primary);
+  background: var(--loc-primary);
+  color: #fff;
+}
+
+  .loc-btn--primary:hover:not(:disabled) {
+    background: var(--loc-primary-dark);
+  }
+
+.loc-btn:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.35);
+  outline-offset: 2px;
+}
+
+/* Card and form */
+.loc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 24px;
+  border: 1px solid var(--loc-border);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.loc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.loc-span {
+  grid-column: 1 / -1;
+}
+
+.loc-fld {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4A5C57;
+}
+
+  .loc-fld input,
+  .loc-fld select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 6px;
+    padding: 0 12px;
+    border: 1px solid var(--loc-border-strong);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--loc-text);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+    .loc-fld input::placeholder {
+      color: #6B7A75;
+    }
+
+  .loc-fld .loc-invalid {
+    border-color: var(--loc-error);
+  }
+
+.loc-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--loc-error);
+}
+
+.loc-alert {
+  padding: 12px 16px;
+  border: 1px solid var(--loc-error);
+  border-radius: 10px;
+  background: #FDECEA;
+  color: #8A1F17;
+  font-size: 14px;
+}
+
+.loc-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #E6EBE9;
+}
+
+/* Message and status tag */
+.loc-toast {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--loc-primary);
+  border-radius: 10px;
+  background: var(--loc-primary-soft);
+  color: #0B4F49;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loc-toast--error {
+  border-color: var(--loc-error);
+  background: #FDECEA;
+  color: #8A1F17;
+}
+
+.loc-tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #D6EBE7;
+  color: #0B4F49;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.loc-tag--off {
+  background: #EEF2F1;
+  color: #4A5C57;
+}
