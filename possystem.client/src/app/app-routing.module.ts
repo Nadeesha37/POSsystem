@@ -17,6 +17,9 @@ import { guestGuard } from './core/guest.guard';
 import { roleGuard } from './core/role.guard';
 import { ACCESS } from './core/models/user.model';
 import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
+import { BranchSettingsComponent } from './features/locations/branch-settings/branch-settings.component';
+import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
+import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
 
 const routes: Routes = [
 
@@ -60,6 +63,29 @@ const routes: Routes = [
         component: RolesPermissionsComponent,
         canActivate: [roleGuard],
         data: { roles: ACCESS.roles }
+      },
+
+      { path: 'locations', redirectTo: 'locations/branch-settings', pathMatch: 'full' },
+
+      {
+        path: 'locations/branch-settings',
+        component: BranchSettingsComponent,
+        canActivate: [roleGuard],
+        data: { roles: ACCESS.locations }
+      },
+
+      {
+        path: 'locations/add-branch',
+        component: AddBranchComponent,
+        canActivate: [roleGuard],
+        data: { roles: ACCESS.locations }
+      },
+
+      {
+        path: 'locations/add-department',
+        component: AddDepartmentComponent,
+        canActivate: [roleGuard],
+        data: { roles: ACCESS.locations }
       },
 
       { path: 'forbidden', component: ForbiddenComponent }

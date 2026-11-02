@@ -1,0 +1,61 @@
+<div class="loc-header">
+  <div>
+    <h1>Add department</h1>
+    <p class="loc-sub">Create a department (sub location) inside a branch.</p>
+  </div>
+</div>
+
+<form class="loc-card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+  <div class="loc-grid">
+
+    <label class="loc-fld loc-span">
+      Branch
+      <select formControlName="branchId" [class.loc-invalid]="showError('branchId')">
+        <option [ngValue]="null" disabled>Select a branch</option>
+        <option *ngFor="let b of branches" [ngValue]="b.id">{{ b.name }} ({{ b.code }})</option>
+      </select>
+      <span class="loc-error" *ngIf="showError('branchId')">{{ errorText('branchId') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Department name
+      <input type="text" formControlName="name" maxlength="60" autocomplete="off"
+             placeholder="e.g. Bakery"
+             [class.loc-invalid]="showError('name')">
+      <span class="loc-error" *ngIf="showError('name')">{{ errorText('name') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Department code
+      <input type="text" formControlName="code" maxlength="10" autocomplete="off"
+             placeholder="e.g. BAK"
+             [class.loc-invalid]="showError('code')">
+      <span class="loc-error" *ngIf="showError('code')">{{ errorText('code') }}</span>
+    </label>
+
+    <label class="loc-fld loc-span">
+      Description (optional)
+      <input type="text" formControlName="description" maxlength="120" autocomplete="off"
+             placeholder="What is this department for?"
+             [class.loc-invalid]="showError('description')">
+      <span class="loc-error" *ngIf="showError('description')">{{ errorText('description') }}</span>
+    </label>
+
+    <label class="loc-fld">
+      Status
+      <select formControlName="status">
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+
+  </div>
+
+  <div class="loc-alert" *ngIf="errorMessage" role="alert">{{ errorMessage }}</div>
+
+  <div class="loc-footer">
+    <a class="loc-btn" routerLink="/locations/branch-settings">Cancel</a>
+    <button class="loc-btn loc-btn--primary" type="submit" [disabled]="saving">Save department</button>
+  </div>
+
+</form>

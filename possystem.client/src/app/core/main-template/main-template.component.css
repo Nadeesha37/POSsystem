@@ -174,3 +174,12 @@
     .profile-dropdown button:hover {
       background: #f3f4f6;
     }
+
+.menu-collapsible {
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu-chevron {
+  margin-left: auto;
+}

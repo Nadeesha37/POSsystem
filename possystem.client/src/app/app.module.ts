@@ -19,6 +19,9 @@ import { ModalComponent } from './shared/components/modal/modal.component';
 import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
 import { NewRoleDialogComponent } from './features/roles-permissions/components/new-role-dialog/new-role-dialog.component';
 import { AssignUserDialogComponent } from './features/roles-permissions/components/assign-user-dialog/assign-user-dialog.component';
+import { BranchSettingsComponent } from './features/locations/branch-settings/branch-settings.component';
+import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
+import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { AssignUserDialogComponent } from './features/roles-permissions/componen
     ModalComponent,
     RolesPermissionsComponent,
     NewRoleDialogComponent,
-    AssignUserDialogComponent
+    AssignUserDialogComponent,
+    BranchSettingsComponent,
+    AddBranchComponent,
+    AddDepartmentComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

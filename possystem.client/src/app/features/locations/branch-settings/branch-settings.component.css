@@ -1,0 +1,149 @@
+@import '../locations-shared.css';
+
+.loc-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Branch list */
+.loc-list {
+  flex: 1 1 280px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loc-list__tools {
+  display: flex;
+  gap: 8px;
+}
+
+.loc-search,
+.loc-select {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--loc-border-strong);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--loc-text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.loc-search {
+  flex: 1;
+  min-width: 0;
+}
+
+.loc-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--loc-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--loc-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+  .loc-item:hover {
+    border-color: var(--loc-primary);
+  }
+
+  .loc-item.on {
+    padding: 13px 15px;
+    border: 2px solid var(--loc-primary);
+  }
+
+.loc-item__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+  .loc-item__top b {
+    font-size: 16px;
+  }
+
+.loc-item__meta {
+  font-size: 13px;
+  color: var(--loc-muted);
+}
+
+/* Editor panel */
+.loc-panel {
+  flex: 3 1 520px;
+  min-width: 0;
+}
+
+.loc-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.loc-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #E6EBE9;
+  border-radius: 12px;
+}
+
+.loc-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+}
+
+  .loc-table th,
+  .loc-table td {
+    padding: 12px 14px;
+    border-top: 1px solid #E6EBE9;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .loc-table th {
+    border-top: 0;
+    color: #4A5C57;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+.loc-actions-col {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.loc-link {
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--loc-primary-dark);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+  .loc-link:hover {
+    text-decoration: underline;
+  }
+
+.loc-link--danger {
+  color: var(--loc-error);
+}
+
+.loc-footer--split {
+  justify-content: space-between;
+}

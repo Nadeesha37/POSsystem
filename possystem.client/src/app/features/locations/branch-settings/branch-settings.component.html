@@ -1,0 +1,175 @@
+<div class="loc-header">
+  <div>
+    <h1>Branch settings</h1>
+    <p class="loc-sub">Manage your branches (locations) and the departments (sub locations) inside each branch.</p>
+  </div>
+  <a class="loc-btn loc-btn--primary" routerLink="/locations/add-branch">+ Add branch</a>
+</div>
+
+<div class="loc-toast" *ngIf="message" [class.loc-toast--error]="messageType === 'error'" role="status">
+  {{ message }}
+</div>
+
+<div class="loc-layout">
+
+  <!-- Branch list -->
+  <section class="loc-list" aria-label="Branches">
+    <div class="loc-list__tools">
+      <input class="loc-search" type="search" placeholder="Search branches"
+             aria-label="Search branches" autocomplete="off" [(ngModel)]="search">
+      <select class="loc-select" aria-label="Filter by status" [(ngModel)]="statusFilter">
+        <option value="All">All</option>
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+    </div>
+
+    <button *ngFor="let b of filteredBranches; trackBy: trackByBranch"
+            class="loc-item" type="button"
+            [class.on]="b.id === selectedId"
+            [attr.aria-pressed]="b.id === selectedId"
+            (click)="selectBranch(b)">
+      <span class="loc-item__top">
+        <b>{{ b.name }}</b>
+        <span class="loc-tag" [class.loc-tag--off]="b.status === 'Inactive'">{{ b.status }}</span>
+      </span>
+      <span class="loc-item__meta">
+        {{ b.code }} · {{ b.city }} ·
+        {{ departmentCount(b.id) }} {{ departmentCount(b.id) === 1 ? 'department' : 'departments' }}
+      </span>
+    </button>
+
+    <p class="loc-sub" *ngIf="filteredBranches.length === 0">No branches match your search.</p>
+  </section>
+
+  <!-- Branch editor -->
+  <section class="loc-card loc-panel" *ngIf="selectedBranch as branch; else emptyState">
+
+    <form [formGroup]="form" (ngSubmit)="saveChanges()" novalidate>
+      <div class="loc-grid">
+
+        <label class="loc-fld">
+          Branch name
+          <input type="text" formControlName="name" maxlength="60" autocomplete="off"
+                 [class.loc-invalid]="showError('name')">
+          <span class="loc-error" *ngIf="showError('name')">{{ errorText('name') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          Branch code
+          <input type="text" formControlName="code" maxlength="10" autocomplete="off"
+                 [class.loc-invalid]="showError('code')">
+          <span class="loc-error" *ngIf="showError('code')">{{ errorText('code') }}</span>
+        </label>
+
+        <label class="loc-fld loc-span">
+          Address
+          <input type="text" formControlName="address" maxlength="120" autocomplete="off"
+                 [class.loc-invalid]="showError('address')">
+          <span class="loc-error" *ngIf="showError('address')">{{ errorText('address') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          City
+          <input type="text" formControlName="city" maxlength="40" autocomplete="off"
+                 [class.loc-invalid]="showError('city')">
+          <span class="loc-error" *ngIf="showError('city')">{{ errorText('city') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          Phone number
+          <input type="text" formControlName="phone" maxlength="20" autocomplete="off"
+                 [class.loc-invalid]="showError('phone')">
+          <span class="loc-error" *ngIf="showError('phone')">{{ errorText('phone') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          Email (optional)
+          <input type="text" formControlName="email" maxlength="100" autocomplete="off"
+                 [class.loc-invalid]="showError('email')">
+          <span class="loc-error" *ngIf="showError('email')">{{ errorText('email') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          Manager (optional)
+          <input type="text" formControlName="manager" maxlength="60" autocomplete="off"
+                 [class.loc-invalid]="showError('manager')">
+          <span class="loc-error" *ngIf="showError('manager')">{{ errorText('manager') }}</span>
+        </label>
+
+        <label class="loc-fld">
+          Status
+          <select formControlName="status">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+        </label>
+
+      </div>
+    </form>
+
+    <!-- Departments -->
+    <div>
+      <div class="loc-section-head">
+        <div>
+          <h3>Departments (sub locations)</h3>
+          <p class="loc-sub">Sections inside {{ branch.name }}.</p>
+        </div>
+        <a class="loc-btn" routerLink="/locations/add-department" [queryParams]="{ branchId: branch.id }">
+          + Add department
+        </a>
+      </div>
+
+      <div class="loc-table-wrap" *ngIf="branchDepartments.length > 0; else noDepartments">
+        <table class="loc-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th class="loc-actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of branchDepartments; trackBy: trackByDepartment">
+              <td>{{ d.name }}</td>
+              <td>{{ d.code }}</td>
+              <td>{{ d.description || '–' }}</td>
+              <td>
+                <span class="loc-tag" [class.loc-tag--off]="d.status === 'Inactive'">{{ d.status }}</span>
+              </td>
+              <td class="loc-actions-col">
+                <button type="button" class="loc-link" (click)="toggleDepartment(d)">
+                  {{ d.status === 'Active' ? 'Deactivate' : 'Activate' }}
+                </button>
+                <button type="button" class="loc-link loc-link--danger" (click)="deleteDepartment(d)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #noDepartments>
+        <p class="loc-sub">No departments in this branch yet.</p>
+      </ng-template>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="loc-footer loc-footer--split">
+      <button class="loc-btn" type="button" (click)="deleteBranch()">Delete branch</button>
+      <button class="loc-btn loc-btn--primary" type="button"
+              [disabled]="!form.dirty" (click)="saveChanges()">
+        Save changes
+      </button>
+    </div>
+
+  </section>
+
+  <ng-template #emptyState>
+    <section class="loc-card loc-panel">
+      <p class="loc-sub">No branch selected. <a routerLink="/locations/add-branch">Add your first branch.</a></p>
+    </section>
+  </ng-template>
+
+</div>
