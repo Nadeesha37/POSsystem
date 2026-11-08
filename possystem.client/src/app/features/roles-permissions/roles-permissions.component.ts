@@ -205,12 +205,11 @@ export class RolesPermissionsComponent implements OnInit, OnDestroy {
     const roleId = this.draft.id;
     const roleName = this.draft.name;
 
-    this.rolesService.assignUsers(roleId, userIds).subscribe({
+    this.rolesService.setRoleMembers(roleId, userIds).subscribe({
       next: () => {
         this.rolesService.getUsers().subscribe(users => (this.users = users));
         this.showAssignDialog = false;
-        const count = userIds.length;
-        this.showMessage(`${count} ${count === 1 ? 'user' : 'users'} assigned to ${roleName}`, 'success');
+        this.showMessage(`Members of ${roleName} updated`, 'success');
       },
       error: (e: Error) => {
         this.showAssignDialog = false;

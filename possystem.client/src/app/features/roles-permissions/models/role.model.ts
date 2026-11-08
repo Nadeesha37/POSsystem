@@ -48,7 +48,7 @@ export interface Role {
 export interface StaffUser {
   id: number;
   name: string;
-  roleId: number;
+  roleId: number | null;
 }
 
 export interface NewRoleInput {

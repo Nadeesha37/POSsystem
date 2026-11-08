@@ -106,6 +106,24 @@ export class RolesService {
     return of(undefined);
   }
 
+  // role ekata final members list eka set karanawa (add + remove dekama)
+  setRoleMembers(roleId: number, memberIds: number[]): Observable<void> {
+    const role = this.roles.find(r => r.id === roleId);
+    if (!role) {
+      return throwError(() => new Error('Role not found'));
+    }
+    if (role.locked) {
+      return throwError(() => new Error('Users cannot be changed on a locked role'));
+    }
+
+    this.users = this.users.map(u => {
+      if (memberIds.includes(u.id)) return { ...u, roleId };   // add / keep
+      if (u.roleId === roleId) return { ...u, roleId: null };  // deselect karapu ayawa ain karanawa
+      return u;
+    });
+    return of(undefined);
+  }
+
   private isNameTaken(name: string, ignoreId?: number): boolean {
     const wanted = name.trim().toLowerCase();
     return this.roles.some(r => r.id !== ignoreId && r.name.toLowerCase() === wanted);
