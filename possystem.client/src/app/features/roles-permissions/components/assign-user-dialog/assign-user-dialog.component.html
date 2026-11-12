@@ -5,7 +5,7 @@
       <h2 id="au-title">Assign users to {{ role.name }}</h2>
       <p>
         {{ memberCount }} {{ memberCount === 1 ? 'user already has' : 'users already have' }} this role.
-        Pick more staff to add.
+        Deselect to remove any.
       </p>
     </div>
     <button class="rp-btn rp-dlg-close" type="button" aria-label="Close" (click)="closed.emit()">
@@ -30,7 +30,8 @@
     </div>
 
     <div class="rp-staff-list">
-      <label class="rp-row" *ngFor="let u of filtered; trackBy: trackByUser" [class.on]="isSelected(u.id)">
+      <label class="rp-row" *ngFor="let u of filtered; trackBy: trackByUser"
+             [class.on]="isSelected(u.id) || isOriginal(u.id)">
         <input type="checkbox" [checked]="isSelected(u.id)" (change)="toggle(u.id)">
         <i>{{ initials(u.name) }}</i>
         <b>{{ u.name }}</b>
@@ -38,25 +39,20 @@
       </label>
 
       <p class="rp-empty" *ngIf="filtered.length === 0">
-        {{ candidates.length === 0 ? 'There is no other staff to assign.' : 'No staff match your search.' }}
+        {{ list.length === 0 ? 'There is no staff to show.' : 'No staff match your search.' }}
       </p>
     </div>
-
-    <p class="rp-hint">
-      <strong>{{ selectedCount }} selected.</strong>
-      Each person moves from their current role to {{ role.name }}.
-    </p>
 
   </div>
 
   <div class="rp-dlg-foot rp-dlg-foot--split">
-    <a class="rp-btn rp-btn--ghost" routerLink="/users/create">Invite a new user</a>
+    <a class="rp-btn rp-btn--ghost" routerLink="/users/create">New User</a>
     <div class="rp-dlg-actions">
       <button class="rp-btn" type="button" (click)="closed.emit()">Cancel</button>
       <button class="rp-btn rp-btn--primary" type="button"
-              [disabled]="selectedCount === 0"
+              [disabled]="!hasChanges"
               (click)="submit()">
-        {{ selectedCount === 0 ? 'Assign users' : 'Assign ' + selectedCount + (selectedCount === 1 ? ' user' : ' users') }}
+        {{ addedCount > 0 ? 'Assign ' + addedCount + (addedCount === 1 ? ' user' : ' users') : 'Save changes' }}
       </button>
     </div>
   </div>
