@@ -20,6 +20,7 @@ import { RolesPermissionsComponent } from './features/roles-permissions/roles-pe
 import { BranchSettingsComponent } from './features/locations/branch-settings/branch-settings.component';
 import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
 import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
+import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 const routes: Routes = [
 
@@ -87,6 +88,8 @@ const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ACCESS.locations }
       },
+
+      { path: 'settings', component: UserSettingsComponent },
 
       { path: 'forbidden', component: ForbiddenComponent }
 

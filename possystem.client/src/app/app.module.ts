@@ -22,6 +22,7 @@ import { AssignUserDialogComponent } from './features/roles-permissions/componen
 import { BranchSettingsComponent } from './features/locations/branch-settings/branch-settings.component';
 import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
 import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
+import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AddDepartmentComponent } from './features/locations/add-department/add-
     AssignUserDialogComponent,
     BranchSettingsComponent,
     AddBranchComponent,
-    AddDepartmentComponent
+    AddDepartmentComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

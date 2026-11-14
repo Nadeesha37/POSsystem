@@ -1,0 +1,309 @@
+<section
+  class="settings-page"
+  [attr.data-mode]="draft.dark ? 'dark' : 'light'"
+  [attr.data-accent]="draft.theme"
+  [style.font-size.px]="draft.fontSize"
+  [style.font-family]="draft.font === 'Figtree' ? null : draft.font"
+>
+  <div class="settings-content">
+  <section class="preview" aria-label="Live settings preview">
+    <div class="preview-window">
+      <aside class="preview-sidebar" [class.collapsed]="draft.sidebar === 'collapsed'">
+        <div class="preview-logo"><i></i><span class="skeleton logo-label"></span></div>
+        <div
+          *ngFor="let page of landingPages"
+          class="preview-nav"
+          [class.selected]="draft.landing === page"
+          [attr.title]="draft.sidebar === 'collapsed' ? page : null"
+        >
+          <i></i><span class="skeleton nav-label">{{ page }}</span>
+        </div>
+      </aside>
+
+      <div class="preview-main">
+        <div class="skeleton preview-title"></div>
+        <p class="preview-subtitle">{{ draft.landing }} ({{ draft.theme | titlecase }})</p>
+        <div class="preview-table">
+          <div class="preview-row preview-header">
+            <span></span><i></i><i></i><i></i>
+          </div>
+          <div
+            *ngFor="let row of [1, 2, 3]"
+            class="preview-row"
+            [style.height.px]="draft.density"
+          >
+            <input type="checkbox" tabindex="-1" aria-hidden="true">
+            <i class="dark-bar"></i><i class="mid-bar"></i><i class="danger-bar"></i>
+          </div>
+        </div>
+        <div class="preview-footer">
+          <span class="preview-chip warning-chip">{{ drawerStatus }}</span>
+          <span class="preview-chip success-chip">{{ printerStatus }}</span>
+          <span class="preview-clock">{{ previewClock }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="summary" aria-live="polite" aria-label="Applied settings summary">
+    <div><small>Active Setup</small><b>{{ applied.language }}</b></div>
+    <div><small>Row Density</small><b>{{ applied.density }}px {{ densityLabel(applied.density) }}</b></div>
+    <div><small>Hardware Node</small><b>{{ activeHardwareCount }} Active Unit{{ activeHardwareCount === 1 ? '' : 's' }}</b></div>
+  </section>
+
+  <form class="settings-panel" (ngSubmit)="applySettings()">
+    <div class="tabs" role="tablist" aria-label="Settings sections">
+      <button
+        #tabButton
+        *ngFor="let tab of tabs; let index = index"
+        type="button"
+        class="tab"
+        role="tab"
+        [id]="'settings-tab-' + index"
+        [attr.aria-selected]="activeTab === index"
+        [attr.aria-controls]="'settings-panel-' + index"
+        [tabindex]="activeTab === index ? 0 : -1"
+        (click)="activeTab = index"
+        (keydown)="onTabKeydown($event, index)"
+      >
+        {{ tab }}
+      </button>
+    </div>
+
+    <section
+      class="pane"
+      id="settings-panel-0"
+      role="tabpanel"
+      aria-labelledby="settings-tab-0"
+      [hidden]="activeTab !== 0"
+    >
+      <div class="settings-grid">
+        <div class="field">
+          <label for="theme">UI theme</label>
+          <select id="theme" name="theme" [(ngModel)]="draft.theme">
+            <option value="modern">Classic Modern</option>
+            <option value="emerald">Emerald Grove</option>
+            <option value="obsidian">Obsidian</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Dark Mode</span>
+          <div class="segmented-control">
+            <label><input type="radio" name="darkMode" [value]="false" [(ngModel)]="draft.dark"><span>Off</span></label>
+            <label><input type="radio" name="darkMode" [value]="true" [(ngModel)]="draft.dark"><span>On</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="landing">Default Landing</label>
+          <select id="landing" name="landing" [(ngModel)]="draft.landing">
+            <option *ngFor="let page of landingPages" [ngValue]="page">{{ page }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Sidebar State Configuration</span>
+          <div class="segmented-control">
+            <label><input type="radio" name="sidebar" value="expanded" [(ngModel)]="draft.sidebar"><span>Expanded</span></label>
+            <label><input type="radio" name="sidebar" value="collapsed" [(ngModel)]="draft.sidebar"><span>Collapsed</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="font">Font</label>
+          <select id="font" name="font" [(ngModel)]="draft.font">
+            <option value="Figtree">Figtree</option>
+            <option value="Georgia,serif">Georgia</option>
+            <option value="ui-monospace,Menlo,monospace">Monospace</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="font-size">Font Size</label>
+          <select id="font-size" name="fontSize" [(ngModel)]="draft.fontSize">
+            <option [ngValue]="13">13 px (Small)</option>
+            <option [ngValue]="15">15 px (Standard)</option>
+            <option [ngValue]="17">17 px (Large)</option>
+          </select>
+        </div>
+
+        <div class="field full-width">
+          <label for="density">Table Row Density</label>
+          <div class="range-control">
+            <input type="range" id="density" name="density" min="24" max="72" step="2" [(ngModel)]="draft.density">
+            <span class="range-value">{{ draft.density }} px</span>
+          </div>
+          <p class="hint">{{ densityDescription(draft.density) }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="pane"
+      id="settings-panel-1"
+      role="tabpanel"
+      aria-labelledby="settings-tab-1"
+      [hidden]="activeTab !== 1"
+    >
+      <div class="settings-grid">
+        <div class="field">
+          <label for="language">Language</label>
+          <select id="language" name="language" [(ngModel)]="draft.language">
+            <option>English (US)</option>
+            <option>Español (ES)</option>
+            <option>Français (FR)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="time-zone">Time zone</label>
+          <select id="time-zone" name="timeZone" [(ngModel)]="draft.timeZone">
+            <option value="Asia/Colombo">Colombo (UTC+5:30)</option>
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">New York</option>
+            <option value="Europe/Paris">Paris</option>
+            <option value="Asia/Tokyo">Tokyo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="date-format">Date format</label>
+          <select id="date-format" name="dateFormat" [(ngModel)]="draft.dateFormat">
+            <option value="ymd">YYYY-MM-DD</option>
+            <option value="dmy">DD/MM/YYYY</option>
+            <option value="mdy">MM/DD/YYYY</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="field-label">Time format</span>
+          <div class="segmented-control">
+            <label><input type="radio" name="timeFormat" value="12" [(ngModel)]="draft.timeFormat"><span>12-hour</span></label>
+            <label><input type="radio" name="timeFormat" value="24" [(ngModel)]="draft.timeFormat"><span>24-hour</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="currency">Currency</label>
+          <select id="currency" name="currency" [(ngModel)]="draft.currency">
+            <option>LKR (Rs)</option>
+            <option>USD ($)</option>
+            <option>EUR (€)</option>
+            <option>GBP (£)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="first-day">First day of week</label>
+          <select id="first-day" name="firstDay" [(ngModel)]="draft.firstDay">
+            <option>Monday</option>
+            <option>Sunday</option>
+            <option>Saturday</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="pane"
+      id="settings-panel-2"
+      role="tabpanel"
+      aria-labelledby="settings-tab-2"
+      [hidden]="activeTab !== 2"
+    >
+      <div class="field full-width">
+        <span class="field-label">Where to send each alert</span>
+        <div class="table-scroll">
+          <table class="notification-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th *ngFor="let channel of notificationChannels" scope="col">{{ channelLabels[channel] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let setting of draft.notifications; trackBy: trackById">
+                <td>{{ setting.label }}</td>
+                <td *ngFor="let channel of notificationChannels">
+                  <input
+                    type="checkbox"
+                    [name]="'notification-' + setting.id + '-' + channel"
+                    [attr.aria-label]="setting.label + ' ' + channelLabels[channel]"
+                    [(ngModel)]="setting[channel]"
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="preference-rows">
+        <div class="preference-row">
+          <div class="preference-copy"><b>Alert sounds</b><small>Play a chime for in-app alerts.</small></div>
+          <label class="switch" aria-label="Alert sounds">
+            <input type="checkbox" name="sound" [(ngModel)]="draft.sound"><i></i>
+          </label>
+        </div>
+        <div class="preference-row quiet-row">
+          <div class="preference-copy"><b>Quiet hours</b><small>Pause in-app alerts between these times.</small></div>
+          <input class="time-input" type="time" name="quietStart" aria-label="Quiet hours start" [(ngModel)]="draft.quietStart">
+          <input class="time-input" type="time" name="quietEnd" aria-label="Quiet hours end" [(ngModel)]="draft.quietEnd">
+          <label class="switch" aria-label="Enable quiet hours">
+            <input type="checkbox" name="quietHours" [(ngModel)]="draft.quietHours"><i></i>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="pane"
+      id="settings-panel-3"
+      role="tabpanel"
+      aria-labelledby="settings-tab-3"
+      [hidden]="activeTab !== 3"
+    >
+      <div class="preference-rows">
+        <div class="preference-row">
+          <div class="preference-copy"><b>Cash drawer</b><small>Opens when a sale is completed.</small></div>
+          <select name="drawerMode" aria-label="Cash drawer mode" [(ngModel)]="draft.drawerMode">
+            <option>Arm on sale</option>
+            <option>Open manually</option>
+          </select>
+          <label class="switch" aria-label="Cash drawer">
+            <input type="checkbox" name="cashDrawer" [(ngModel)]="draft.cashDrawer"><i></i>
+          </label>
+        </div>
+        <div class="preference-row">
+          <div class="preference-copy"><b>Receipt printer</b><small>Prints receipts and end-of-day reports.</small></div>
+          <select name="printer" aria-label="Receipt printer model" [(ngModel)]="draft.printer">
+            <option>Generic</option>
+            <option>Epson TM-T20</option>
+            <option>Star TSP143</option>
+          </select>
+          <label class="switch" aria-label="Receipt printer">
+            <input type="checkbox" name="receiptPrinter" [(ngModel)]="draft.receiptPrinter"><i></i>
+          </label>
+        </div>
+        <div class="preference-row">
+          <div class="preference-copy"><b>Barcode scanner</b><small>USB or Bluetooth scanner for product lookup.</small></div>
+          <label class="switch" aria-label="Barcode scanner">
+            <input type="checkbox" name="barcodeScanner" [(ngModel)]="draft.barcodeScanner"><i></i>
+          </label>
+        </div>
+        <div class="preference-row">
+          <div class="preference-copy"><b>Card terminal</b><small>Takes card payments at the register.</small></div>
+          <label class="switch" aria-label="Card terminal">
+            <input type="checkbox" name="cardTerminal" [(ngModel)]="draft.cardTerminal"><i></i>
+          </label>
+        </div>
+      </div>
+      <p class="hint">Each switched-on device counts as an active unit in the summary bar above.</p>
+    </section>
+
+    <div class="actions">
+      <button type="button" class="button secondary-button" (click)="discardChanges()">Discard changes</button>
+      <button type="submit" class="button primary-button">Apply Configurations</button>
+    </div>
+
+  </form>
+
+  <div class="toast" [class.visible]="toastMessage" role="status" aria-live="polite">{{ toastMessage }}</div>
+  </div>
+</section>
