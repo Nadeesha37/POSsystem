@@ -1,30 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, throwError, timer } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
-import { AuthUser, Role } from '../models/user.model';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { delay, map, tap } from 'rxjs/operators';
+import { AuthUser, Role, UserAccount } from '../models/user.model';
 
 const STORAGE_KEY = 'authUser';
-const VALID_ROLES: Role[] = ['Admin', 'Manager', 'Cashier'];
-
-interface MockAccount extends AuthUser {
-  password: string;
-}
+const VALID_ROLES: readonly Role[] = ['Admin', 'Manager', 'Cashier'];
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
-
-  private readonly mockAccounts: MockAccount[] = [
-    { username: 'admin',   password: 'admin123',   fullName: 'System Admin',  role: 'Admin' },
-    { username: 'manager', password: 'manager123', fullName: 'Store Manager', role: 'Manager' },
-    { username: 'cashier', password: 'cashier123', fullName: 'Shop Cashier',  role: 'Cashier' }
-  ];
-
   private readonly userSubject = new BehaviorSubject<AuthUser | null>(this.readStoredUser());
   readonly user$ = this.userSubject.asObservable();
 
-  constructor(private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   get currentUser(): AuthUser | null {
     return this.userSubject.value;
@@ -41,26 +33,14 @@ export class AuthService {
 
 
   login(username: string, password: string): Observable<AuthUser> {
-    return timer(600).pipe(
-      switchMap((): Observable<AuthUser> => {
-        const account = this.mockAccounts.find(
-          a => a.username === username && a.password === password
-        );
-
-        if (!account) {
-          return throwError(() => new Error('INVALID_CREDENTIALS'));
-        }
-
-
-        const user: AuthUser = {
-          username: account.username,
-          fullName: account.fullName,
-          role: account.role
-        };
-
+    return this.http.post<UserAccount>('/Login', {
+      userName: username,
+      password
+    }).pipe(
+      map(account => this.toAuthUser(account)),
+      tap(user => {
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(user));
         this.userSubject.next(user);
-        return of(user);
       })
     );
   }
@@ -88,6 +68,11 @@ export class AuthService {
       const u = JSON.parse(raw);
       if (
         u &&
+        typeof u.accountId === 'number' &&
+        typeof u.userName === 'string' &&
+        typeof u.userRoleId === 'number' &&
+        typeof u.userRole === 'string' &&
+        Array.isArray(u.authorizedFeatureIds) &&
         typeof u.username === 'string' &&
         typeof u.fullName === 'string' &&
         VALID_ROLES.includes(u.role)
@@ -98,5 +83,22 @@ export class AuthService {
 
     }
     return null;
+  }
+
+  private toAuthUser(account: UserAccount): AuthUser {debugger
+    const role = VALID_ROLES.find(
+      validRole => validRole.toLowerCase() === account.userRole.trim().toLowerCase()
+    );
+
+    if (!role) {
+      throw new Error('INVALID_ACCOUNT_ROLE');
+    }
+
+    return {
+      ...account,
+      username: account.userName,
+      fullName: account.userName,
+      role
+    };
   }
 }
