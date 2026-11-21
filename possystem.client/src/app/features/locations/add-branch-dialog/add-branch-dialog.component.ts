@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LocationsService } from '../services/locations.service';
 import { Branch, STATUSES } from '../models/location.model';
 import {
@@ -11,29 +10,24 @@ import {
 } from '../utils/location-forms';
 
 @Component({
-  selector: 'app-add-branch',
-  templateUrl: './add-branch.component.html',
-  styleUrls: ['./add-branch.component.css']
+  selector: 'app-add-branch-dialog',
+  templateUrl: './add-branch-dialog.component.html',
+  styleUrls: ['./add-branch-dialog.component.css']
 })
-export class AddBranchComponent implements OnInit {
+export class AddBranchDialogComponent {
+  @Input() branches: Branch[] = [];
+  @Output() saved = new EventEmitter<Branch>();
+  @Output() closed = new EventEmitter<void>();
+
   readonly statuses = STATUSES;
 
   form: FormGroup;
-  attempted = false;                 // Save click kalata passe vitarak validation pennana
+  attempted = false;                 // Save click karata passe vitharak validation pennana
   saving = false;
   errorMessage = '';
-  private branches: Branch[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private locations: LocationsService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private locations: LocationsService) {
     this.form = createBranchForm(this.fb);
-  }
-
-  ngOnInit(): void {
-    this.locations.getBranches().subscribe(branches => (this.branches = branches));
   }
 
   showError(field: string): boolean {
@@ -62,8 +56,7 @@ export class AddBranchComponent implements OnInit {
     this.errorMessage = '';
 
     this.locations.createBranch(input).subscribe({
-      next: branch =>
-        this.router.navigate(['/locations/branch-settings'], { queryParams: { selected: branch.id } }),
+      next: branch => this.saved.emit(branch),
       error: (e: Error) => {
         this.saving = false;
         this.errorMessage = e.message;

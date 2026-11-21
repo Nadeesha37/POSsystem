@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { LocationsService } from '../services/locations.service';
 import { Branch, Department, STATUSES } from '../models/location.model';
 import {
@@ -11,41 +10,32 @@ import {
 } from '../utils/location-forms';
 
 @Component({
-  selector: 'app-add-department',
-  templateUrl: './add-department.component.html',
-  styleUrls: ['./add-department.component.css']
+  selector: 'app-add-department-dialog',
+  templateUrl: './add-department-dialog.component.html',
+  styleUrls: ['./add-department-dialog.component.css']
 })
-export class AddDepartmentComponent implements OnInit {
+export class AddDepartmentDialogComponent implements OnInit {
+  @Input() branches: Branch[] = [];          // Active branches vitharai
+  @Input() departments: Department[] = [];   // duplicate check ekata
+  @Input() branchId: number | null = null;   // select wela thiyena branch eka (preset)
+  @Output() saved = new EventEmitter<Department>();
+  @Output() closed = new EventEmitter<void>();
+
   readonly statuses = STATUSES;
 
   form: FormGroup;
-  attempted = false;                 // Save click kalata passe vitarak validation pennnana
+  attempted = false;
   saving = false;
   errorMessage = '';
-  branches: Branch[] = [];           // Active branches vitharai dropdown
-  private departments: Department[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-    private locations: LocationsService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private locations: LocationsService) {
     this.form = createDepartmentForm(this.fb);
   }
 
   ngOnInit(): void {
-    this.locations.getDepartments().subscribe(departments => (this.departments = departments));
-
-    this.locations.getBranches().subscribe(branches => {
-      this.branches = branches.filter(b => b.status === 'Active');
-
-      // Branch Settings 
-      const preset = Number(this.route.snapshot.queryParamMap.get('branchId'));
-      if (this.branches.some(b => b.id === preset)) {
-        this.form.patchValue({ branchId: preset });
-      }
-    });
+    if (this.branches.some(b => b.id === this.branchId)) {
+      this.form.patchValue({ branchId: this.branchId });
+    }
   }
 
   showError(field: string): boolean {
@@ -74,10 +64,7 @@ export class AddDepartmentComponent implements OnInit {
     this.errorMessage = '';
 
     this.locations.createDepartment(input).subscribe({
-      next: department =>
-        this.router.navigate(['/locations/branch-settings'], {
-          queryParams: { selected: department.branchId }
-        }),
+      next: department => this.saved.emit(department),
       error: (e: Error) => {
         this.saving = false;
         this.errorMessage = e.message;

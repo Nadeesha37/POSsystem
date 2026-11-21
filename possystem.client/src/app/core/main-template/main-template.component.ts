@@ -58,8 +58,8 @@ export class MainTemplateComponent implements OnInit, OnDestroy {
       collapsible: true,
       children: [
         { label: 'Branch Settings', icon: 'store', route: '/locations/branch-settings' },
-        { label: 'Add Branch', icon: 'add_business', route: '/locations/add-branch' },
-        { label: 'Add Department', icon: 'account_tree', route: '/locations/add-department' }
+        // { label: 'Add Branch', icon: 'add_business', route: '/locations/add-branch' },
+        // { label: 'Add Department', icon: 'account_tree', route: '/locations/add-department' }
       ]
     },
     {

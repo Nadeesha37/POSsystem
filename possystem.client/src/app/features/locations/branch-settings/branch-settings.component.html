@@ -3,7 +3,7 @@
     <h1>Branch settings</h1>
     <p class="loc-sub">Manage your branches (locations) and the departments (sub locations) inside each branch.</p>
   </div>
-  <a class="loc-btn loc-btn--primary" routerLink="/locations/add-branch">+ Add branch</a>
+  <button class="loc-btn loc-btn--primary" type="button" (click)="openAddBranch()">+ Add branch</button>
 </div>
 
 <div class="loc-toast" *ngIf="message" [class.loc-toast--error]="messageType === 'error'" role="status">
@@ -113,9 +113,7 @@
           <h3>Departments (sub locations)</h3>
           <p class="loc-sub">Sections inside {{ branch.name }}.</p>
         </div>
-        <a class="loc-btn" routerLink="/locations/add-department" [queryParams]="{ branchId: branch.id }">
-          + Add department
-        </a>
+        <button class="loc-btn" type="button" (click)="openAddDepartment()">+ Add department</button>
       </div>
 
       <div class="loc-table-wrap" *ngIf="branchDepartments.length > 0; else noDepartments">
@@ -168,8 +166,27 @@
 
   <ng-template #emptyState>
     <section class="loc-card loc-panel">
-      <p class="loc-sub">No branch selected. <a routerLink="/locations/add-branch">Add your first branch.</a></p>
+      <p class="loc-sub">
+        No branch selected.
+        <button type="button" class="loc-link" (click)="openAddBranch()">Add your first branch.</button>
+      </p>
     </section>
   </ng-template>
 
 </div>
+
+<!-- Add branch dialog -->
+<app-add-branch-dialog *ngIf="showAddBranch"
+                       [branches]="branches"
+                       (saved)="onBranchAdded($event)"
+                       (closed)="showAddBranch = false">
+</app-add-branch-dialog>
+
+<!-- Add department dialog -->
+<app-add-department-dialog *ngIf="showAddDepartment"
+                           [branches]="activeBranches"
+                           [departments]="departments"
+                           [branchId]="selectedId"
+                           (saved)="onDepartmentAdded($event)"
+                           (closed)="showAddDepartment = false">
+</app-add-department-dialog>
