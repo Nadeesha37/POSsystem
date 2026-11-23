@@ -1,0 +1,137 @@
+/* ---------- Dialog layout ---------- */
+.loc-dlg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 24px 0;
+  text-align: left;
+}
+
+  .loc-dlg-head h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #14231F;
+  }
+
+  .loc-dlg-head p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #55655F;
+  }
+
+.loc-dlg-body {
+  padding: 20px 24px;
+}
+
+.loc-dlg-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #E6EBE9;
+}
+
+/* ---------- Form ---------- */
+.loc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.loc-span {
+  grid-column: 1 / -1;
+}
+
+.loc-fld {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #14231F;
+  text-align: left;
+}
+
+  .loc-fld input,
+  .loc-fld select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 1px solid #B9C5C1;
+    border-radius: 10px;
+    background: #fff;
+    color: #14231F;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 400;
+    box-sizing: border-box;
+  }
+
+    .loc-fld input::placeholder {
+      color: #6B7A75;
+    }
+
+    .loc-fld input:focus,
+    .loc-fld select:focus {
+      outline: 2px solid #0F766E;
+      outline-offset: 1px;
+      border-color: #0F766E;
+    }
+
+.loc-invalid {
+  border-color: #B42318 !important;
+}
+
+.loc-error {
+  font-size: 13px;
+  font-weight: 400;
+  color: #B42318;
+}
+
+.loc-alert {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #FDECEA;
+  color: #B42318;
+  font-size: 14px;
+}
+
+/* ---------- Buttons ---------- */
+.loc-btn {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: 1px solid #B9C5C1;
+  background: #fff;
+  color: #14231F;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loc-btn--primary {
+  background: #0F766E;
+  border-color: #0F766E;
+  color: #fff;
+}
+
+.loc-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loc-dlg-close {
+  width: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .loc-grid {
+    grid-template-columns: 1fr;
+  }
+}
