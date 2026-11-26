@@ -19,7 +19,6 @@ import { ModalComponent } from './shared/components/modal/modal.component';
 import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
 import { NewRoleDialogComponent } from './features/roles-permissions/components/new-role-dialog/new-role-dialog.component';
 import { AssignUserDialogComponent } from './features/roles-permissions/components/assign-user-dialog/assign-user-dialog.component';
-import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,7 @@ import { UserSettingsComponent } from './features/user-settings/user-settings.co
     ModalComponent,
     RolesPermissionsComponent,
     NewRoleDialogComponent,
-    AssignUserDialogComponent,
-    UserSettingsComponent
+    AssignUserDialogComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

@@ -17,7 +17,6 @@ import { guestGuard } from './core/guest.guard';
 import { roleGuard } from './core/role.guard';
 import { ACCESS } from './core/models/user.model';
 import { RolesPermissionsComponent } from './features/roles-permissions/roles-permissions.component';
-import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 const routes: Routes = [
 
@@ -62,8 +61,6 @@ const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ACCESS.roles }
       },
-
-      { path: 'settings', component: UserSettingsComponent },
 
       { path: 'forbidden', component: ForbiddenComponent }
 
