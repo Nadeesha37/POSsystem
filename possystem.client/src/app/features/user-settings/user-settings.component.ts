@@ -111,7 +111,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   private previewNow = new Date();
 
   ngOnInit(): void {
-    this.clockTimer = setInterval(() => this.previewNow = new Date(), 30_000);
+    this.clockTimer = setInterval(() => {
+      this.previewNow = new Date();
+    }, 30_000);
   }
 
   ngOnDestroy(): void {
@@ -124,22 +126,28 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   onTabKeydown(event: KeyboardEvent, index: number): void {
-    let nextIndex: number | null = null;
-    if (event.key === 'ArrowRight') {
-      nextIndex = (index + 1) % this.tabs.length;
-    } else if (event.key === 'ArrowLeft') {
-      nextIndex = (index + this.tabs.length - 1) % this.tabs.length;
-    } else if (event.key === 'Home') {
-      nextIndex = 0;
-    } else if (event.key === 'End') {
-      nextIndex = this.tabs.length - 1;
+    let nextIndex: number;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        nextIndex = (index + 1) % this.tabs.length;
+        break;
+      case 'ArrowLeft':
+        nextIndex = (index + this.tabs.length - 1) % this.tabs.length;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = this.tabs.length - 1;
+        break;
+      default:
+        return;
     }
 
-    if (nextIndex !== null) {
-      event.preventDefault();
-      this.activeTab = nextIndex;
-      this.tabButtons.get(nextIndex)?.nativeElement.focus();
-    }
+    event.preventDefault();
+    this.activeTab = nextIndex;
+    this.tabButtons.get(nextIndex)?.nativeElement.focus();
   }
 
   applySettings(): void {
@@ -171,27 +179,30 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   get previewClock(): string {
-    const time = new Intl.DateTimeFormat('en-US', {
+    const dateLocale = this.draft.dateFormat === 'dmy'
+      ? 'en-GB'
+      : this.draft.dateFormat === 'mdy'
+        ? 'en-US'
+        : 'sv-SE';
+    const timeOptions: Intl.DateTimeFormatOptions = {
       timeZone: this.draft.timeZone,
       hour: '2-digit',
-      minute: '2-digit',
-      hour12: this.draft.timeFormat === '12'
-    }).format(this.previewNow).replace(/^24/, '00');
-    const parts = new Intl.DateTimeFormat('en-CA', {
+      minute: '2-digit'
+    };
+
+    if (this.draft.timeFormat === '12') {
+      timeOptions.hour12 = true;
+    } else {
+      timeOptions.hourCycle = 'h23';
+    }
+
+    const time = new Intl.DateTimeFormat('en-US', timeOptions).format(this.previewNow);
+    const date = new Intl.DateTimeFormat(dateLocale, {
       timeZone: this.draft.timeZone,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
-    }).formatToParts(this.previewNow);
-    const dateParts: Record<string, string> = {};
-    for (const part of parts) {
-      dateParts[part.type] = part.value;
-    }
-    const date = this.draft.dateFormat === 'dmy'
-      ? `${dateParts['day']}/${dateParts['month']}/${dateParts['year']}`
-      : this.draft.dateFormat === 'mdy'
-        ? `${dateParts['month']}/${dateParts['day']}/${dateParts['year']}`
-        : `${dateParts['year']}-${dateParts['month']}-${dateParts['day']}`;
+    }).format(this.previewNow);
 
     return `${time} | ${date}`;
   }
