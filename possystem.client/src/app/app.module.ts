@@ -23,6 +23,8 @@ import { BranchSettingsComponent } from './features/locations/branch-settings/br
 import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
 import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
 import { UserSettingsComponent } from './features/user-settings/user-settings.component';
+import { AddBranchDialogComponent } from './features/locations/add-branch-dialog/add-branch-dialog.component';
+import { AddDepartmentDialogComponent } from './features/locations/add-department-dialog/add-department-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { UserSettingsComponent } from './features/user-settings/user-settings.co
     AddBranchComponent,
     AddDepartmentComponent,
     UserSettingsComponent
+    AddBranchDialogComponent,
+    AddDepartmentDialogComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

@@ -28,6 +28,9 @@ export class BranchSettingsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   attempted = false;                 // Save click karata passe vitharak validation pennana
 
+  showAddBranch = false;             // Add branch dialog eka
+  showAddDepartment = false;         // Add department dialog eka
+
   message = '';
   messageType: 'success' | 'error' = 'success';
   private messageTimer?: ReturnType<typeof setTimeout>;
@@ -75,6 +78,11 @@ export class BranchSettingsComponent implements OnInit, OnDestroy {
 
   get branchDepartments(): Department[] {
     return this.departments.filter(d => d.branchId === this.selectedId);
+  }
+
+  // Add department dialog eke dropdown ekata Active branches vitharai
+  get activeBranches(): Branch[] {
+    return this.branches.filter(b => b.status === 'Active');
   }
 
   departmentCount(branchId: number): number {
@@ -145,6 +153,36 @@ export class BranchSettingsComponent implements OnInit, OnDestroy {
       },
       error: (e: Error) => this.showMessage(e.message, 'error')
     });
+  }
+
+  // ---------- Add dialogs ----------
+
+  openAddBranch(): void {
+    if (!this.canLeave()) return;
+    this.showAddBranch = true;
+  }
+
+  onBranchAdded(branch: Branch): void {
+    this.branches = [...this.branches, branch];
+    this.showAddBranch = false;
+    this.openBranch(branch);
+    this.showMessage('Branch added', 'success');
+  }
+
+  openAddDepartment(): void {
+    this.showAddDepartment = true;
+  }
+
+  onDepartmentAdded(department: Department): void {
+    this.departments = [...this.departments, department];
+    this.showAddDepartment = false;
+
+    // Wena branch ekakata add karapu nam eka select karanawa
+    const target = this.branches.find(b => b.id === department.branchId);
+    if (target && target.id !== this.selectedId && this.canLeave()) {
+      this.openBranch(target);
+    }
+    this.showMessage('Department added', 'success');
   }
 
   // ---------- Departments ----------
