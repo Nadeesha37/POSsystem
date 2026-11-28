@@ -20,6 +20,9 @@ import { RolesPermissionsComponent } from './features/roles-permissions/roles-pe
 import { NewRoleDialogComponent } from './features/roles-permissions/components/new-role-dialog/new-role-dialog.component';
 import { AssignUserDialogComponent } from './features/roles-permissions/components/assign-user-dialog/assign-user-dialog.component';
 import { BranchSettingsComponent } from './features/locations/branch-settings/branch-settings.component';
+import { AddBranchComponent } from './features/locations/add-branch/add-branch.component';
+import { AddDepartmentComponent } from './features/locations/add-department/add-department.component';
+import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 import { AddBranchDialogComponent } from './features/locations/add-branch-dialog/add-branch-dialog.component';
 import { AddDepartmentDialogComponent } from './features/locations/add-department-dialog/add-department-dialog.component';
 
@@ -40,6 +43,9 @@ import { AddDepartmentDialogComponent } from './features/locations/add-departmen
     NewRoleDialogComponent,
     AssignUserDialogComponent,
     BranchSettingsComponent,
+    AddBranchComponent,
+    AddDepartmentComponent,
+    UserSettingsComponent
     AddBranchDialogComponent,
     AddDepartmentDialogComponent
   ],
